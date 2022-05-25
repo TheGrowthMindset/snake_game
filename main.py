@@ -152,7 +152,7 @@ class Game:
     def show_game_over_message(self):
         self.background_wallpaper()
         # self.surface.fill((86,125,70))
-        font = pygame.font.SysFont( 'calibri', 20)
+        font = pygame.font.SysFont( 'calibri', 25)
         line1 = font.render(f"Game Over! Your score is:{self.snake.length-1}", True, (225, 225, 225))
         self.surface.blit(line1, (50,50))
         line2 = font.render(f"Press Enter to play again! Esc to exit!", True, (225, 225, 225))
