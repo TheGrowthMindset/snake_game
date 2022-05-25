@@ -92,7 +92,7 @@ class Game:
         self.play_background_music()
     # setting window / surface
     # setting size of window of game
-        self.surface = pygame.display.set_mode( (490, 400) )
+        self.surface = pygame.display.set_mode( (490, 490) )
     # setting color of background
         # self.surface.fill((225,225,225))
         # initializing Snake
@@ -107,6 +107,10 @@ class Game:
             if y1 >= y2 and y1 < y2 + SIZE:
                 return True
         return False
+
+    def background_wallpaper(self):
+        bg = pygame.image.load("resources/background.png")
+        self.surface.blit(bg, (0,0))
 
     def play(self):
         self.background_wallpaper()
@@ -123,19 +127,21 @@ class Game:
             self.apple.reset()
 
         # Snake colliding with self
-        for i in range(2, self.snake.length):
+        for i in range(3, self.snake.length):
             if self.is_collition(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                 sound = pygame.mixer.Sound("resources/dead.wav")
                 pygame.mixer.Sound.play(sound)
                 raise "Bit Yourself!"
 
+        # snake colliding with boundry of window
+        if not(0 <= self.snake.x[0] <= 490 and 0 <= self.snake.y[0] <= 490):
+            sound = pygame.mixer.Sound("resources/dead.wav")
+            pygame.mixer.Sound.play(sound)
+            raise "Watch where you going!"
+
     def play_background_music(self):
         pygame.mixer.music.load("resources/background_music.mp3")
         pygame.mixer.music.play()
-
-    def background_wallpaper(self):
-        bg = pygame.image.load("resources/background.png")
-        self.surface.blit(bg, (0,0))
 
     def display_score(self):
         font = pygame.font.SysFont( 'calibri', 20)
@@ -147,7 +153,7 @@ class Game:
         self.background_wallpaper()
         # self.surface.fill((86,125,70))
         font = pygame.font.SysFont( 'calibri', 20)
-        line1 = font.render(f"Game Over! Your score is:{self.snake.length}", True, (225, 225, 225))
+        line1 = font.render(f"Game Over! Your score is:{self.snake.length-1}", True, (225, 225, 225))
         self.surface.blit(line1, (50,50))
         line2 = font.render(f"Press Enter to play again! Esc to exit!", True, (225, 225, 225))
         self.surface.blit(line2, (10,70))
